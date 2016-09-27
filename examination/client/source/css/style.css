@@ -1,0 +1,19 @@
+.theButton{
+  float:left;
+  border-radius: 3px;
+
+}
+
+.submitButton{
+  padding: 10px;
+}
+
+body{
+  font-family: 'Schoolbell', Arial, serif;
+}
+.h1{
+  width: 500px;
+  padding: 10px;
+  text-align: center;
+}
+

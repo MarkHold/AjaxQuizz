@@ -4,12 +4,58 @@
 
 "use strict";
 
+  var questions = function (container) {
 
-var questions = function(){
+    var start = 0;
+    var active = 0;
+    var going = true;
 
-  console.log("test questions");
-}
 
-//Export questions as "questions".
+    var container = document.getElementById(container);
+    var div = document.createElement("div");
+    div.classList.add("submitButton");
 
+    div.addEventListener("click", function (event) {
+
+      div.textContent = "Say hello brr";
+      StartCounter();
+    });
+
+    container.appendChild(div);
+
+
+
+
+
+      //part 2.
+      var timeOut = function () {
+
+        setTimeout(function () {
+          var min = Math.floor(time / 10 / 60);
+          var sec = Math.floor(start / 10);
+
+          document.getElementById("name").innerHTML = min + ":" + sec + ":";
+
+          //calling itself so that it can repeat adding the time.
+
+
+          timeOut();
+        }, 500);
+      }
+
+
+    // a simple time(stopwatch type ) function part1.
+
+
+    var StartCounter = function () {
+      if (active == 0) {
+        active = 1;
+        timeOut();
+      } else {
+        active = 0;
+      }
+
+    }
+
+  }
 module.exports = questions;
