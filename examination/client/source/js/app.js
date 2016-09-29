@@ -7,23 +7,45 @@ var questions = function () {
   var start = 0;
   var active = 0;
 
-  var submitButton = document.getElementById("submitButton");
 
-  submitButton.addEventListener("click", function () {
+
+  //Section for the GET Method
+  var questionButton = document.getElementById("getQuestionButton");
+
+  questionButton.addEventListener("click", function () {
 
     StartCounter();
     var req = new XMLHttpRequest();
     req.open("GET", "http://vhost3.lnu.se:20080/question/1", true);
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", function () {
+
       var questionLink = document.getElementById("stuff");
+
       questionLink.innerText = req.responseText;
+
     });
     req.send();
 
 
   });
 
+  //Section for the POST method
+  var submitButton = document.getElementById("submitButton");
+
+  submitButton.addEventListener("click", function () {
+
+    var Answer = document.getElementById("AnswerArea");
+
+    var req = new XMLHttpRequest();
+    req.open("POST", "http://vhost3.lnu.se:20080/answer/1", true);
+    req.setRequestHeader("Content-Type", "application/json");
+    req.send("Answer");
+
+  });
+
+
+  //Section for the time counter
 
   var StartCounter = function () {
 

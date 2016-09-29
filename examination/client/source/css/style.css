@@ -23,11 +23,10 @@ body{
   font-size: 200%;
   padding: 10px;
 }
-.submitButtonn{
+.getQuestionButton{
   border: none;
   text-decoration: none;
   text-align: Center;
-  padding: 15px 20px;
 }
 .questions{
 
@@ -38,4 +37,13 @@ body{
 .Time{
   text-align: center;
   text-decoration: none;
+}
+.AnswerPlace{
+  text-align: center;
+  padding: 20px;
+}
+.submitButtonn{
+  border: none;
+  text-decoration: none;
+  text-align: Center;
 }
