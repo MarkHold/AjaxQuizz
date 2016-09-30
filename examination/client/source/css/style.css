@@ -35,8 +35,9 @@ body{
 
 }
 .Time{
-  text-align: center;
-  text-decoration: none;
+  width: 200px;
+  height: 30px;
+  border: 1px Blue;
 }
 .AnswerPlace{
   text-align: center;

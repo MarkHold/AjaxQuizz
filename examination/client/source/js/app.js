@@ -14,11 +14,15 @@ var questions = function () {
 
   questionButton.addEventListener("click", function () {
 
-    StartCounter();
+    var url = JSON.stringify("http://vhost3.lnu.se:20080/question/21", null, 2);
     var req = new XMLHttpRequest();
-    req.open("GET", "http://vhost3.lnu.se:20080/question/1", true);
+    req.open("GET", "url", true);
     req.setRequestHeader("Content-Type", "application/json");
-    req.addEventListener("load", function () {
+
+    //The onreadystatechange stores a function that can be called automaticly everytime the
+    //ready state changes.
+    
+    req.onreadystatechange(){
 
       var questionLink = document.getElementById("stuff");
 
@@ -36,11 +40,11 @@ var questions = function () {
   submitButton.addEventListener("click", function () {
 
     var Answer = document.getElementById("AnswerArea");
-
+    var AnswerInJson = JSON.stringify({"answer": "Answer"});
     var req = new XMLHttpRequest();
     req.open("POST", "http://vhost3.lnu.se:20080/answer/1", true);
-    req.setRequestHeader("Content-Type", "application/json");
-    req.send("Answer");
+    req.setRequestHeader("Content-Type", "text/json");
+    req.send("AnswerInJson");
 
   });
 
@@ -60,17 +64,28 @@ var questions = function () {
   };
   var timeOut = function () {
 
-    setTimeout(function () {
-      var min = Math.floor(start / 10 / 60);
-      var sec = Math.floor(start / 10);
+    if(active == 1) {
+      setTimeout(function () {
+        start++;
+        var min = Math.floor(start/10/60);
+        var sec = Math.floor(start/10);
+        var tenth = start % 10;
 
-      document.getElementById("time").innerHTML = min + ":" + sec + ":";
+        if(min < 10){
+          min = "0" + min;
+        }
+        if(sec < 10){
+          sec = "0" + sec;
+        }
 
-      //calling itself so that it can repeat adding the time.
+        document.getElementById("time").innerHTML = min + ":" + sec + ":" + tenth;
+        timeOut();
+        //calling itself so that it can repeat adding the time.
 
 
-      timeOut();
-    }, 500);
+        timeOut();
+      }, 100);
+    }
   };
 
 
