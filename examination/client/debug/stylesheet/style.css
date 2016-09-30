@@ -1,0 +1,50 @@
+.theButton{
+  float:left;
+  border-radius: 3px;
+
+}
+
+.submitButton{
+  padding: 10px;
+}
+
+body{
+  font-family: 'Schoolbell', Arial, serif;
+  background-color: yellowgreen;
+}
+.h1{
+  width: 500px;
+  padding: 10px;
+  text-align: center;
+}
+.Titles{
+
+  text-align: Center;
+  font-size: 200%;
+  padding: 10px;
+}
+.getQuestionButton{
+  border: none;
+  text-decoration: none;
+  text-align: Center;
+}
+.questions{
+
+  text-align: center;
+  padding: 20px;
+
+}
+.Time{
+  width: 200px;
+  height: 30px;
+  border: 1px Blue;
+}
+.AnswerPlace{
+  text-align: center;
+  padding: 20px;
+}
+.submitButtonn{
+  border: none;
+  text-decoration: none;
+  text-align: Center;
+}
