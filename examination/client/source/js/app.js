@@ -21,14 +21,15 @@ var questions = function () {
 
     //The onreadystatechange stores a function that can be called automaticly everytime the
     //ready state changes.
-    
-    req.onreadystatechange(){
 
-      var questionLink = document.getElementById("stuff");
+    req.onreadystatechange = function(){
+      if(req.readyState === 4 && req.status === 200) {
 
-      questionLink.innerText = req.responseText;
+        var questionLink = document.getElementById("stuff");
 
-    });
+        questionLink.innerText = req.responseText;
+      }
+    };
     req.send();
 
 
@@ -44,8 +45,10 @@ var questions = function () {
     var req = new XMLHttpRequest();
     req.open("POST", "http://vhost3.lnu.se:20080/answer/1", true);
     req.setRequestHeader("Content-Type", "text/json");
-    req.send("AnswerInJson");
+    if(req.readyState === 4 && req.status === 200) {
 
+      req.send("AnswerInJson");
+    }
   });
 
 
