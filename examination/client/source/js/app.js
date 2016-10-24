@@ -4,8 +4,8 @@
 var questions = function () {
 
 
-  var start = 0;
-  var active = 0;
+
+
 
 
 
@@ -14,9 +14,12 @@ var questions = function () {
 
   questionButton.addEventListener("click", function () {
 
-    var url = JSON.stringify("http://vhost3.lnu.se:20080/question/21", null, 2);
+    var url = JSON.stringify("http://vhost3.lnu.se:20080/question/1", null, 2);
     var req = new XMLHttpRequest();
     req.open("GET", "url", true);
+    req.onError = function(){console.log("error" + req.status)};
+    req.upload.onError = function(){console.log("error" + req.status)};
+
     req.setRequestHeader("Content-Type", "application/json");
 
     //The onreadystatechange stores a function that can be called automaticly everytime the
@@ -32,8 +35,10 @@ var questions = function () {
     };
     req.send();
 
-
   });
+
+
+
 
   //Section for the POST method
   var submitButton = document.getElementById("submitButton");
@@ -52,10 +57,15 @@ var questions = function () {
   });
 
 
+
+
+
   //Section for the time counter
 
   var StartCounter = function () {
 
+    var start = 0;
+    var active = 0;
 
     if (active == 0) {
       active = 1;
