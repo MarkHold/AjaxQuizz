@@ -4,36 +4,49 @@
 var questions = function () {
 
 
-
-
-
+  
 
 
   //Section for the GET Method
   var questionButton = document.getElementById("getQuestionButton");
 
+
+  var start = 0;
+  var active = 0;
+
+  var urlArray = ["http://vhost3.lnu.se:20080/question/1",
+    "http://vhost3.lnu.se:20080/question/21",
+    "http://vhost3.lnu.se:20080/question/321",
+    "http://vhost3.lnu.se:20080/question/6",
+    "http://vhost3.lnu.se:20080/question/32",
+    "http://vhost3.lnu.se:20080/question/32456",
+    "http://vhost3.lnu.se:20080/question/326"];
+
+  var response;
+
   questionButton.addEventListener("click", function () {
 
-    var url = JSON.stringify("http://vhost3.lnu.se:20080/question/1", null, 2);
-    var req = new XMLHttpRequest();
-    req.open("GET", "url", true);
-    req.onError = function(){console.log("error" + req.status)};
-    req.upload.onError = function(){console.log("error" + req.status)};
-
-    req.setRequestHeader("Content-Type", "application/json");
+    //StartCounter();
+    var QuestionReq = new XMLHttpRequest();
+    QuestionReq.open("GET", urlArray[0], true);
+    QuestionReq.setRequestHeader("Content-Type", "application/json");
 
     //The onreadystatechange stores a function that can be called automaticly everytime the
     //ready state changes.
 
-    req.onreadystatechange = function(){
-      if(req.readyState === 4 && req.status === 200) {
+    QuestionReq.onreadystatechange = function(){
+
+      if(QuestionReq.readyState === 4 && QuestionReq.status === 200) {
+
 
         var questionLink = document.getElementById("stuff");
 
-        questionLink.innerText = req.responseText;
-      }
-    };
-    req.send();
+        response = JSON.parse(QuestionReq.responseText);
+        questionLink.innerText = response.question;
+
+       }
+    }
+      QuestionReq.send();
 
   });
 
@@ -46,14 +59,19 @@ var questions = function () {
   submitButton.addEventListener("click", function () {
 
     var Answer = document.getElementById("AnswerArea");
-    var AnswerInJson = JSON.stringify({"answer": "Answer"});
     var req = new XMLHttpRequest();
-    req.open("POST", "http://vhost3.lnu.se:20080/answer/1", true);
-    req.setRequestHeader("Content-Type", "text/json");
+    var url = "http://vhost3.lnu.se:20080/answer/1";
+    req.open("POST", url, true);
+    req.setRequestHeader("Content-Type", "application/json");
     if(req.readyState === 4 && req.status === 200) {
+      var newReq;
+      console.log(newReq = JSON.parse(req.responseText));
 
-      req.send("AnswerInJson");
     }
+
+    var ans = JSON.stringify({answer: "2"});
+    req.send(ans);
+
   });
 
 
@@ -63,9 +81,6 @@ var questions = function () {
   //Section for the time counter
 
   var StartCounter = function () {
-
-    var start = 0;
-    var active = 0;
 
     if (active == 0) {
       active = 1;
