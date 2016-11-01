@@ -4,73 +4,82 @@
 var questions = function () {
 
 
-  
+
 
 
   //Section for the GET Method
   var questionButton = document.getElementById("getQuestionButton");
-
+  var startButton = document.getElementById("startButton");
+  var currentPlayerButton = document.getElementById("UserNameButton");
+  var currentPlayerStatus = document.getElementById("currentplayer");
 
   var start = 0;
   var active = 0;
+  var Answer;
 
-  var urlArray = ["http://vhost3.lnu.se:20080/question/1",
-    "http://vhost3.lnu.se:20080/question/21",
-    "http://vhost3.lnu.se:20080/question/321",
-    "http://vhost3.lnu.se:20080/question/6",
-    "http://vhost3.lnu.se:20080/question/32",
-    "http://vhost3.lnu.se:20080/question/32456",
-    "http://vhost3.lnu.se:20080/question/326"];
-
+  var StartURL = "http://vhost3.lnu.se:20080/question/1";
+  var questionLink = document.getElementById("stuff");
+  var url;
   var response;
+  var nextLink;
 
-  questionButton.addEventListener("click", function () {
 
-    //StartCounter();
+  function QuestionGame(RequestType, url, Answer){
+
     var QuestionReq = new XMLHttpRequest();
-    QuestionReq.open("GET", urlArray[0], true);
+    QuestionReq.open(RequestType, url, true);
     QuestionReq.setRequestHeader("Content-Type", "application/json");
-
-    //The onreadystatechange stores a function that can be called automaticly everytime the
-    //ready state changes.
 
     QuestionReq.onreadystatechange = function(){
 
       if(QuestionReq.readyState === 4 && QuestionReq.status === 200) {
 
 
-        var questionLink = document.getElementById("stuff");
-
         response = JSON.parse(QuestionReq.responseText);
+        console.log(response);
         questionLink.innerText = response.question;
 
-       }
+        url = response.nextURL;
+      }
+
+
+      if(nextLink === undefined){
+        //quizz done function
+      }
+
+
     }
+
+    if(RequestType == "POST"){
+      var theAnswer = {"answer": Answer};
+      QuestionReq.send(JSON.stringify(theAnswer));
+    }
+    else{
+
       QuestionReq.send();
 
-  });
-
-
-
-
-  //Section for the POST method
-  var submitButton = document.getElementById("submitButton");
-
-  submitButton.addEventListener("click", function () {
-
-    var Answer = document.getElementById("AnswerArea");
-    var req = new XMLHttpRequest();
-    var url = "http://vhost3.lnu.se:20080/answer/1";
-    req.open("POST", url, true);
-    req.setRequestHeader("Content-Type", "application/json");
-    if(req.readyState === 4 && req.status === 200) {
-      var newReq;
-      console.log(newReq = JSON.parse(req.responseText));
-
     }
 
-    var ans = JSON.stringify({answer: "2"});
-    req.send(ans);
+}
+
+
+
+  currentPlayerButton.onclick = function(){
+    var currentPlayer = document.getElementById("UserNames").value;
+    document.getElementById("currentplayer").innerHTML = currentPlayer;
+
+  }
+
+  startButton.onclick = function(){
+    QuestionGame("GET","http://vhost3.lnu.se:20080/question/1", null);
+  }
+
+
+  questionButton.addEventListener("click", function () {
+
+    var Answer = document.getElementById("AnswerArea").value;
+    QuestionGame("POST", url, Answer);
+
 
   });
 
@@ -78,7 +87,10 @@ var questions = function () {
 
 
 
-  //Section for the time counter
+
+
+
+  //Section for the total time function
 
   var StartCounter = function () {
 
@@ -90,6 +102,8 @@ var questions = function () {
     }
 
   };
+
+
   var timeOut = function () {
 
     if(active == 1) {
