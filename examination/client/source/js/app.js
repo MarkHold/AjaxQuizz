@@ -5,26 +5,29 @@ var questions = function () {
 
 
 
-
-
-  //Section for the GET Method
   var questionButton = document.getElementById("getQuestionButton");
   var startButton = document.getElementById("startButton");
+
   var currentPlayerButton = document.getElementById("UserNameButton");
   var currentPlayerStatus = document.getElementById("currentplayer");
 
+  var StartURL = "http://vhost3.lnu.se:20080/question/1";
+  var questionLink = document.getElementById("Q1");
+  var questAltLink = document.getElementById("Qalt");
+
+
   var start = 0;
   var active = 0;
-  var Answer;
+  var countDown;
 
-  var StartURL = "http://vhost3.lnu.se:20080/question/1";
-  var questionLink = document.getElementById("stuff");
-  var url;
+  var url = "http://vhost3.lnu.se:20080/question/1";
   var response;
   var nextLink;
+  var Answer;
 
 
-  function QuestionGame(RequestType, url, Answer){
+
+  function QuestionGame(RequestType, Answer){
 
     var QuestionReq = new XMLHttpRequest();
     QuestionReq.open(RequestType, url, true);
@@ -38,8 +41,10 @@ var questions = function () {
         response = JSON.parse(QuestionReq.responseText);
         console.log(response);
         questionLink.innerText = response.question;
-
         url = response.nextURL;
+
+        // questAltLink.innerText = response.alternatives;
+
       }
 
 
@@ -50,10 +55,12 @@ var questions = function () {
 
     }
 
+    //If its a post request, this will happen
     if(RequestType == "POST"){
       var theAnswer = {"answer": Answer};
       QuestionReq.send(JSON.stringify(theAnswer));
     }
+      //otherwise its a GET request.
     else{
 
       QuestionReq.send();
@@ -63,7 +70,6 @@ var questions = function () {
 }
 
 
-
   currentPlayerButton.onclick = function(){
     var currentPlayer = document.getElementById("UserNames").value;
     document.getElementById("currentplayer").innerHTML = currentPlayer;
@@ -71,21 +77,33 @@ var questions = function () {
   }
 
   startButton.onclick = function(){
-    QuestionGame("GET","http://vhost3.lnu.se:20080/question/1", null);
+    QuestionGame("GET", null);
+    countDown = 20;
   }
 
 
   questionButton.addEventListener("click", function () {
-
+    console.log(url);
     var Answer = document.getElementById("AnswerArea").value;
-    QuestionGame("POST", url, Answer);
+    QuestionGame("POST", Answer);
 
 
   });
 
+  //Section for countdown timer
 
 
+  var counter = setInterval(timer, 1000);
 
+  function timer(){
+    countDown = countDown-1;
+    if(countDown <= 0){
+      clearInterval(counter);
+      document.getElementById("timer").innerHTML = "Your 20 seconds are over.";
+      return;
+    }
+    document.getElementById("timer").innerHTML = countDown + " seconds";
+  }
 
 
 

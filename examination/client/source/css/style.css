@@ -7,6 +7,13 @@
 .Button{
   padding: 10px;
 }
+
+.Time{
+  text-align: center;
+}
+#timer{
+  text-align: center;
+}
 #startButton{
   text-align: center;
 }
