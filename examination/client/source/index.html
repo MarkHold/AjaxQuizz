@@ -9,46 +9,67 @@
 <div class = "Titles">
   <h1>Welcome to the Quizz Test</h1>
 </div>
-<div class = "UserNames">
-  <p>Please Enter your name</p>
-  <textarea id="UserNames", rows="2", cols="10"></textarea>
-  <button type="button" id="UserNameButton">Submit Name</button>
 
-</div>
+ <div id="UserNameSection">
+  <div class = "UserNames">
+    <p id = "UserNameTitle">Please Enter your name</p>
+    <textarea id="UserNames", rows="2", cols="10"></textarea>
+    <button type="button" id="UserNameButton">Submit Name</button>
 
-<div class = "CurrentPlayer">
-<p>Current Player: </p>
-  <p id="currentplayer"></p>
-</div>
+  </div>
 
-<div class = "Questions">
+  <div class = "CurrentPlayer">
+  <p id="currentPlayerName">Current Player: </p>
+    <p id="currentplayer"></p>
+  </div>
+   </div>
+
+<div id = "Questions">
   <p>Next Question: </p>
   <p id ="Q1"></p>
   <p id ="Qalt"></p>
 </div>
 
-  <div class ="AnswerPlace">
+  <div class ="TextPlace">
   <textarea id="AnswerArea", rows="3", cols="20"></textarea>
   </div>
 
+<div class = "RadioPlace">
+  <div id ="RadioSpot"></div>
+  <form id = "radioplace">
+    <input type="radio" name="alt1" value=""> Alt1<br>
+    <input type="radio" name="alt2" value=""> Alt2<br>
+    <input type="radio" name="alt3" value=""> Alt3<br>
+    <div id="alt4">
+    <input type="radio" name="alt4" value=""> Alt4
+    </div>
+  </form>
+</div>
+</div>
 
 
 <div class = "Time">
-  <p>Your Current Time: </p>
+  <p id = "timerName">Your Total Time: </p>
   <p id ="time"></p>
 </div>
-    <div class="getQuestionButton">
+
+
+<div class ="startButton">
+  <button type="button" id="startButton">Get The Next Question!</button>
+</div>
+
+<div class="getQuestionButton">
       <button type="button" id="getQuestionButton">Submit your Answer!</button>
     </div>
 
-<div class="TimerForQuestion">
+
+<div id="TimerForQuestion">
     <p id="timer"></p>
 </div>
 
 
-
 <div class="startButton">
-  <button type="button" id="startButton">Start the game</button>
+  <button type="button" id="hidebutton">test a function!</button>
 </div>
 
     <h1 class="currentTime"></h1>

@@ -37,7 +37,12 @@ body{
   text-decoration: none;
   text-align: Center;
 }
-.questions{
+.startButton{
+  border: none;
+  text-decoration: none;
+  text-align: Center;
+}
+#Questions{
 
   text-align: center;
   padding: 20px;
@@ -48,12 +53,18 @@ body{
   height: 30px;
   border: 1px Blue;
 }
-.AnswerPlace{
+.TextPlace {
   text-align: center;
-  padding: 20px;
+}
+.RadioPlace{
+  text-align: center;
+
 }
 .Buttonn{
   border: none;
   text-decoration: none;
   text-align: Center;
+}
+#UserNameSection{
+  text-align: center;
 }
