@@ -26,6 +26,10 @@ body{
   padding: 10px;
   text-align: center;
 }
+#EndSection{
+  text-align: center;
+  text-decoration: none;
+}
 .Titles{
 
   text-align: Center;

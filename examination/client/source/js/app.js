@@ -9,6 +9,7 @@ var questions = function () {
   var startButton = document.getElementById("startButton");
   var FunctionTestButton = document.getElementById("hidebutton");
 
+
   var currentPlayerButton = document.getElementById("UserNameButton");
   var currentPlayerStatus = document.getElementById("currentplayer");
   var AnswerArea = document.getElementById("AnswerArea");
@@ -28,6 +29,10 @@ var questions = function () {
   var nextLink;
   var Answer;
 
+  var min = 0;
+  var sec = 0;
+  var hr = 0;
+  var t;
   document.getElementById("Questions").style.visibility = "hidden";
   document.getElementById("radioplace").style.visibility = "hidden";
   document.getElementById("timerName").style.visibility = "hidden";
@@ -35,6 +40,9 @@ var questions = function () {
   document.getElementById("AnswerArea").style.visibility = "hidden";
   document.getElementById("startButton").style.visibility = "hidden";
   document.getElementById("time").style.visibility = "hidden";
+  document.getElementById("EndSection").style.visibility = "hidden";
+  document.getElementById("currentPlayerName").style.visibility = "hidden";
+
 
 
   function QuestionGame(RequestType, Answer){
@@ -55,10 +63,13 @@ var questions = function () {
 
         // questAltLink.innerText = response.alternatives;
 
-         if(response.alternatives !=null){
-           questAltLink.innerText = response.alternatives;
-           AnswerArea.style.visibility = "hidden";
-           RadioArea.style.visibility = "visible";
+           if(response.alternatives !=null){
+           questAltLink.innerText = JSON.stringify(response.alternatives);
+           document.getElementById("AnswerArea").style.visibility = "hidden";
+           document.getElementById("radioplace").style.visibility = "visible";
+          }
+          if(response.alternatives == null){
+            questAltLink.innerText = '';
           }
 
         HideAllRadios();
@@ -75,6 +86,7 @@ var questions = function () {
         questionLink.innerText = "Correct Answer! Get the next question";
         countDown = 20;
       }
+
 
 
     }
@@ -133,6 +145,10 @@ var questions = function () {
   currentPlayerButton.onclick = function(){
    //Hides everything that has nothing to do with current player name.
     var currentPlayer = document.getElementById("UserNames").value;
+
+    QuestionGame("GET", null);
+    countDown = 20;
+    timers();
     document.getElementById("currentplayer").innerHTML = currentPlayer;
 
     document.getElementById("Questions").style.visibility = "visible";
@@ -149,6 +165,8 @@ var questions = function () {
     document.getElementById("UserNameButton").style.visibility = "hidden";
     document.getElementById("UserNames").style.visibility = "hidden";
     document.getElementById("UserNameTitle").style.visibility = "hidden";
+    document.getElementById("EndSection").style.visibility = "hidden";
+
 
 
 
@@ -180,55 +198,56 @@ var questions = function () {
     if(countDown <= 0){
       clearInterval(counter);
       document.getElementById("timer").innerHTML = "Your 20 seconds are over.";
+
+      document.getElementById("EndSection").style.visibility = "visible";
+
+      document.getElementById("Questions").style.visibility = "hidden";
+      document.getElementById("radioplace").style.visibility = "hidden";
+      document.getElementById("timerName").style.visibility = "hidden";
+      document.getElementById("getQuestionButton").style.visibility = "hidden";
+      document.getElementById("AnswerArea").style.visibility = "hidden";
+      document.getElementById("startButton").style.visibility = "hidden";
+      document.getElementById("time").style.visibility = "hidden";
+      document.getElementById("currentplayer").style.visibility = "hidden";
+      document.getElementById("currentPlayerName").style.visibility = "hidden";
+      document.getElementById("theTotal").style.visibility = "hidden";
+
+
+      document.getElementById("UserNameButton").style.visibility = "hidden";
+      document.getElementById("UserNames").style.visibility = "hidden";
+      document.getElementById("UserNameTitle").style.visibility = "hidden";
+
       return;
     }
     document.getElementById("timer").innerHTML = countDown + " seconds";
   }
 
 
-/*
+  //Section for total time
 
-  //Section for the total time function
 
-  var StartCounter = function () {
+  function addTime(){
 
-    if (active == 0) {
-      active = 1;
-      timeOut();
-    } else {
-      active = 0;
+    sec++;
+    if(sec >= 60){
+      sec = 0;
+      min++;
+      if(min >= 60){
+        min = 0;
+        hr++;
+      }
     }
+    document.getElementById("theTotal").textContent = (hr ? (hr > 9 ? hr : "0" + hr) : "00") + ":" + (min ? (min > 9 ? min : "0" + min) : "00") + ":" + (min > 9 ? min : "0" + min);
+    timers();
 
-  };
+  }
+  function timers(){
+    t = setTimeout(addTime,1000);
+  }
 
-
-  var timeOut = function () {
-
-    if(active == 1) {
-      setTimeout(function () {
-        start++;
-        var min = Math.floor(start/10/60);
-        var sec = Math.floor(start/10);
-        var tenth = start % 10;
-
-        if(min < 10){
-          min = "0" + min;
-        }
-        if(sec < 10){
-          sec = "0" + sec;
-        }
-
-        document.getElementById("time").innerHTML = min + ":" + sec + ":" + tenth;
-        timeOut();
-        //calling itself so that it can repeat adding the time.
+  timers();
 
 
-        timeOut();
-      }, 100);
-    }
-  };
-*/
 };
-
 questions();
 
