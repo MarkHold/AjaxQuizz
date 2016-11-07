@@ -1,13 +1,35 @@
 /**
  * Created by markuslyconhold on 27/09/16.
  */
+
+var HighScoreList;
+var currentPlayer;
+//start function for initilizing the app.
+
+function init(){
+  //this if-statement runs if there is no highscore list already saved
+if(localStorage.getItem("SavedHighListObjectz") == undefined) {
+  HighScoreList = [
+    {'name': "badu", 'score': 30},
+    {'name': "wabadu", 'score': 554},
+    {'name': "3luud", 'score': 221},
+    {'name': "not3luud", 'score': 39},
+    {'name': "imblack", 'score': 555}
+  ];
+  localStorage.setItem("SavedHighList", JSON.stringify(HighScoreList));
+}else{
+  //or else we load this
+  HighScoreList = JSON.parse(localStorage.getItem("SavedHighListObjectz"))
+  }
+}
+
+
 var questions = function () {
-
-
 
   var questionButton = document.getElementById("getQuestionButton");
   var startButton = document.getElementById("startButton");
-  var FunctionTestButton = document.getElementById("hidebutton");
+  var ReloadPageButton = document.getElementById("hidebutton");
+  var StopButton = document.getElementById("stop");
 
 
   var currentPlayerButton = document.getElementById("UserNameButton");
@@ -28,11 +50,10 @@ var questions = function () {
   var response;
   var nextLink;
   var Answer;
+  var thetotaltimer = document.getElementById("timerName");
 
-  var min = 0;
-  var sec = 0;
-  var hr = 0;
-  var t;
+  var seconds = 0, minutes = 0, hours = 0,
+    t;
   document.getElementById("Questions").style.visibility = "hidden";
   document.getElementById("radioplace").style.visibility = "hidden";
   document.getElementById("timerName").style.visibility = "hidden";
@@ -42,6 +63,8 @@ var questions = function () {
   document.getElementById("time").style.visibility = "hidden";
   document.getElementById("EndSection").style.visibility = "hidden";
   document.getElementById("currentPlayerName").style.visibility = "hidden";
+  document.getElementById("TheTotalTimeName").style.visibility = "hidden";
+  document.getElementById("hidebutton").style.visibility = "hidden";
 
 
 
@@ -106,18 +129,8 @@ var questions = function () {
 }
 
 
-  FunctionTestButton.onclick = function () {
-
-    document.getElementById("Questions").style.visibility = "hidden";
-    document.getElementById("radioplace").style.visibility = "hidden";
-    document.getElementById("timerName").style.visibility = "hidden";
-    document.getElementById("getQuestionButton").style.visibility = "hidden";
-    document.getElementById("currentPlayerName").style.visibility = "hidden";
-    document.getElementById("AnswerArea").style.visibility = "hidden";
-    document.getElementById("startButton").style.visibility = "hidden";
-    document.getElementById("time").style.visibility = "hidden";
-
-
+  ReloadPageButton.onclick = function () {
+    window.location.reload();
   }
   function HideArea(){
     document.getElementById("AnswerArea").style.visibility = "hidden";
@@ -144,11 +157,11 @@ var questions = function () {
 
   currentPlayerButton.onclick = function(){
    //Hides everything that has nothing to do with current player name.
-    var currentPlayer = document.getElementById("UserNames").value;
+    currentPlayer = document.getElementById("UserNames").value;
 
     QuestionGame("GET", null);
     countDown = 20;
-    timers();
+    TheDelay();
     document.getElementById("currentplayer").innerHTML = currentPlayer;
 
     document.getElementById("Questions").style.visibility = "visible";
@@ -160,6 +173,9 @@ var questions = function () {
     document.getElementById("startButton").style.visibility = "visible";
     document.getElementById("time").style.visibility = "visible";
     document.getElementById("radioplace").style.visibility = "hidden";
+    document.getElementById("timer").style.visibility = "visible";
+    document.getElementById("TheTotalTimeName").style.visibility = "visible";
+
 
 
     document.getElementById("UserNameButton").style.visibility = "hidden";
@@ -191,15 +207,16 @@ var questions = function () {
   //Section for countdown timer
 
 
-  var counter = setInterval(timer, 1000);
+  var counter = setInterval(timerx, 1000);
 
-  function timer(){
+  function timerx(){
     countDown = countDown-1;
     if(countDown <= 0){
       clearInterval(counter);
       document.getElementById("timer").innerHTML = "Your 20 seconds are over.";
 
       document.getElementById("EndSection").style.visibility = "visible";
+      document.getElementById("hidebutton").style.visibility = "visible";
 
       document.getElementById("Questions").style.visibility = "hidden";
       document.getElementById("radioplace").style.visibility = "hidden";
@@ -210,7 +227,7 @@ var questions = function () {
       document.getElementById("time").style.visibility = "hidden";
       document.getElementById("currentplayer").style.visibility = "hidden";
       document.getElementById("currentPlayerName").style.visibility = "hidden";
-      document.getElementById("theTotal").style.visibility = "hidden";
+      document.getElementById("TheTotalTimeName").style.visibility = "hidden";
 
 
       document.getElementById("UserNameButton").style.visibility = "hidden";
@@ -225,29 +242,69 @@ var questions = function () {
 
   //Section for total time
 
-
-  function addTime(){
-
-    sec++;
-    if(sec >= 60){
-      sec = 0;
-      min++;
-      if(min >= 60){
-        min = 0;
-        hr++;
+  function countingTime() {
+    seconds++;
+    if (seconds >= 60) {
+      seconds = 0;
+      minutes++;
+      if (minutes >= 60) {
+        minutes = 0;
+        hours++;
       }
     }
-    document.getElementById("theTotal").textContent = (hr ? (hr > 9 ? hr : "0" + hr) : "00") + ":" + (min ? (min > 9 ? min : "0" + min) : "00") + ":" + (min > 9 ? min : "0" + min);
-    timers();
 
-  }
-  function timers(){
-    t = setTimeout(addTime,1000);
+    thetotaltimer.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+
+    TheDelay();
   }
 
-  timers();
+  function TheDelay() {
+    t = setTimeout(countingTime, 1000);
+  }
 
+
+  StopButton.onclick = function() {
+    clearTimeout(t);
+  }
+  function SaveToDataBase (){
+
+    //Checks if they completed the quizz, and check if there time is
+    //enough to be top5, if its enough, then it will run newEntry
+    var boolean = false;
+    var Trigger = "score";
+
+    HighScoreList.forEach(function(entry){
+
+      if(entry.hasOwnProperty(Trigger)){
+        var value = entry[Trigger];
+        /*you look in your scores, and his total time is less than theres, then he is
+        added to the list*/
+        if(thetotaltimer < value){
+          boolean = true;
+        }
+      }
+    });
+    if(boolean){
+      newEntry();
+    }
+
+
+  }
+
+  function newEntry(){
+    //inserts on index
+    HighScoreList.splice(5, 0, {name: currentPlayer, score: thetotaltimer });
+
+    //sort scores
+    HighScoreList.sort(function(a,b){
+      return a.score - b.score;
+    });
+    //starts at index 5, then takes away the index right after it (number 6).
+    HighScoreList.splice(5,1);
+    localStorage.setItem("SavedHighListObjectz", JSON.stringify(HighScoreList));
+  }
 
 };
+init();
 questions();
 
