@@ -46,7 +46,7 @@ var questions = function () {
   var active = 0;
   var countDown;
 
-  var url = "http://vhost3.lnu.se:20080/question/1";
+  var url = "http://vhost3.lnu.se:20080/question/32456";
   var response;
   var nextLink;
   var Answer;
@@ -98,9 +98,9 @@ var questions = function () {
         HideAllRadios();
         ShowArea();
 
-        if(response.nextURL == undefined) {
-          countDown = 0;
-
+        if(response.message != undefined && response.nextURL == undefined) {
+          Success();
+          console.log("1231");
         }
       }
 
@@ -177,7 +177,6 @@ var questions = function () {
     document.getElementById("TheTotalTimeName").style.visibility = "visible";
 
 
-
     document.getElementById("UserNameButton").style.visibility = "hidden";
     document.getElementById("UserNames").style.visibility = "hidden";
     document.getElementById("UserNameTitle").style.visibility = "hidden";
@@ -237,6 +236,40 @@ var questions = function () {
       return;
     }
     document.getElementById("timer").innerHTML = countDown + " seconds";
+  }
+
+  function Success(){
+
+    document.getElementById("EndSection").style.visibility = "visible";
+    document.getElementById("hidebutton").style.visibility = "visible";
+
+    document.getElementById("Questions").style.visibility = "hidden";
+    document.getElementById("radioplace").style.visibility = "hidden";
+    document.getElementById("timerName").style.visibility = "visible";
+    document.getElementById("getQuestionButton").style.visibility = "hidden";
+    document.getElementById("AnswerArea").style.visibility = "hidden";
+    document.getElementById("startButton").style.visibility = "hidden";
+    document.getElementById("time").style.visibility = "visible";
+    document.getElementById("currentplayer").style.visibility = "hidden";
+    document.getElementById("currentPlayerName").style.visibility = "hidden";
+    document.getElementById("TheTotalTimeName").style.visibility = "visible";
+    document.getElementById("timer").style.visibility = "hidden";
+    clearTimeout(t);
+    document.getElementById("UserNameButton").style.visibility = "hidden";
+    document.getElementById("UserNames").style.visibility = "hidden";
+    document.getElementById("UserNameTitle").style.visibility = "hidden";
+    
+    document.getElementById("Player1").innerText = JSON.parse(HighScoreList[0].name);
+    document.getElementById("Score1").innerText = JSON.parse(HighScoreList[0].score);
+    document.getElementById("Player2").innerText = JSON.parse(HighScoreList[1].name);
+    document.getElementById("Score2").innerText = JSON.parse(HighScoreList[1].score);
+    document.getElementById("Player3").innerText = JSON.parse(HighScoreList[2].name);
+    document.getElementById("Score3").innerText = JSON.parse(HighScoreList[2].score);
+    document.getElementById("Player4").innerText = JSON.parse(HighScoreList[3].name);
+    document.getElementById("Score4").innerText = JSON.parse(HighScoreList[3].score);
+    document.getElementById("Player5").innerText = JSON.parse(HighScoreList[4].name);
+    document.getElementById("Score").innerText = JSON.parse(HighScoreList[4].score);
+
   }
 
 
