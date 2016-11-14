@@ -4,32 +4,12 @@
 
 var HighScoreList;
 var currentPlayer;
-//start function for initilizing the app.
-
-function init(){
-  //this if-statement runs if there is no highscore list already saved
-if(localStorage.getItem("SavedHighListObjectz") == undefined) {
-  HighScoreList = [
-    {'name': "badu", 'score': 30},
-    {'name': "wabadu", 'score': 554},
-    {'name': "3luud", 'score': 221},
-    {'name': "not3luud", 'score': 39},
-    {'name': "imblack", 'score': 555}
-  ];
-  localStorage.setItem("SavedHighList", JSON.stringify(HighScoreList));
-}else{
-  //or else we load this
-  HighScoreList = JSON.parse(localStorage.getItem("SavedHighListObjectz"))
-  }
-}
-
 
 var questions = function () {
 
   var questionButton = document.getElementById("getQuestionButton");
   var startButton = document.getElementById("startButton");
   var ReloadPageButton = document.getElementById("hidebutton");
-  var StopButton = document.getElementById("stop");
 
 
   var currentPlayerButton = document.getElementById("UserNameButton");
@@ -37,7 +17,7 @@ var questions = function () {
   var AnswerArea = document.getElementById("AnswerArea");
   var RadioArea = document.getElementById("radioplace");
 
-  var StartURL = "http://vhost3.lnu.se:20080/question/21";
+  var StartURL = "http://vhost3.lnu.se:20080/question/1";
   var questionLink = document.getElementById("Q1");
   var questAltLink = document.getElementById("Qalt");
 
@@ -46,14 +26,16 @@ var questions = function () {
   var active = 0;
   var countDown;
 
-  var url = "http://vhost3.lnu.se:20080/question/32456";
+  var url = "http://vhost3.lnu.se:20080/question/1";
   var response;
   var nextLink;
   var Answer;
   var thetotaltimer = document.getElementById("timerName");
 
-  var seconds = 0, minutes = 0, hours = 0,
-    t;
+  var seconds = 0;
+  var minutes = 0;
+  var hours = 0;
+  var theT;
   document.getElementById("Questions").style.visibility = "hidden";
   document.getElementById("radioplace").style.visibility = "hidden";
   document.getElementById("timerName").style.visibility = "hidden";
@@ -100,7 +82,7 @@ var questions = function () {
 
         if(response.message != undefined && response.nextURL == undefined) {
           Success();
-          console.log("1231");
+          newEntry();
         }
       }
 
@@ -127,7 +109,6 @@ var questions = function () {
     }
 
 }
-
 
   ReloadPageButton.onclick = function () {
     window.location.reload();
@@ -258,7 +239,7 @@ var questions = function () {
     document.getElementById("UserNameButton").style.visibility = "hidden";
     document.getElementById("UserNames").style.visibility = "hidden";
     document.getElementById("UserNameTitle").style.visibility = "hidden";
-    
+
     document.getElementById("Player1").innerText = JSON.parse(HighScoreList[0].name);
     document.getElementById("Score1").innerText = JSON.parse(HighScoreList[0].score);
     document.getElementById("Player2").innerText = JSON.parse(HighScoreList[1].name);
@@ -275,6 +256,7 @@ var questions = function () {
 
   //Section for total time
 
+
   function countingTime() {
     seconds++;
     if (seconds >= 60) {
@@ -286,19 +268,18 @@ var questions = function () {
       }
     }
 
-    thetotaltimer.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    thetotaltimer.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") +
+      ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") +
+      ":" + (seconds > 9 ? seconds : "0" + seconds);
 
     TheDelay();
   }
 
   function TheDelay() {
-    t = setTimeout(countingTime, 1000);
+    theT= setTimeout(countingTime, 1000);
   }
 
 
-  StopButton.onclick = function() {
-    clearTimeout(t);
-  }
   function SaveToDataBase (){
 
     //Checks if they completed the quizz, and check if there time is
@@ -338,6 +319,25 @@ var questions = function () {
   }
 
 };
+function init(){
+
+  //this if-statement runs if there is no highscore list already saved
+  if(localStorage.getItem("SavedHighListObjectz") == undefined) {
+    HighScoreList = [
+      {'name': "Sam", 'score': 30},
+      {'name': "Markus", 'score': 554},
+      {'name': "Cody", 'score': 221},
+      {'name': "David", 'score': 39},
+      {'name': "Jackson", 'score': 555}
+    ];
+    localStorage.setItem("SavedHighList", JSON.stringify(HighScoreList));
+  }else{
+    //or else we load this
+    HighScoreList = JSON.parse(localStorage.getItem("SavedHighListObjectz"))
+  }
+}
 init();
 questions();
+
+
 
