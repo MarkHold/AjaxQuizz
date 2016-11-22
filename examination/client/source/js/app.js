@@ -88,10 +88,37 @@ var questions = function () {
 
 
       if(response.message == "Correct answer!"){
+        document.getElementById("startButton").style.visibility = "visible";
+
         questionLink.innerText = "Correct Answer! Get the next question";
         countDown = 20;
       }
+      else{
+        document.getElementById("startButton").style.visibility = "hidden";
 
+        /*clearInterval(counter);
+
+        document.getElementById("EndSection").style.visibility = "visible";
+        document.getElementById("hidebutton").style.visibility = "visible";
+
+        document.getElementById("Questions").style.visibility = "hidden";
+        document.getElementById("radioplace").style.visibility = "hidden";
+        document.getElementById("timerName").style.visibility = "hidden";
+        document.getElementById("getQuestionButton").style.visibility = "hidden";
+        document.getElementById("AnswerArea").style.visibility = "hidden";
+        document.getElementById("startButton").style.visibility = "hidden";
+        document.getElementById("time").style.visibility = "hidden";
+        document.getElementById("currentplayer").style.visibility = "hidden";
+        document.getElementById("currentPlayerName").style.visibility = "hidden";
+        document.getElementById("TheTotalTimeName").style.visibility = "hidden";
+
+
+        document.getElementById("UserNameButton").style.visibility = "hidden";
+        document.getElementById("UserNames").style.visibility = "hidden";
+        document.getElementById("UserNameTitle").style.visibility = "hidden";
+
+*/
+      }
 
 
     }
@@ -151,7 +178,7 @@ var questions = function () {
     document.getElementById("getQuestionButton").style.visibility = "visible";
     document.getElementById("currentPlayerName").style.visibility = "visible";
     document.getElementById("AnswerArea").style.visibility = "visible";
-    document.getElementById("startButton").style.visibility = "visible";
+   // document.getElementById("startButton").style.visibility = "visible";
     document.getElementById("time").style.visibility = "visible";
     document.getElementById("radioplace").style.visibility = "hidden";
     document.getElementById("timer").style.visibility = "visible";
@@ -324,11 +351,11 @@ function init(){
   //this if-statement runs if there is no highscore list already saved
   if(localStorage.getItem("SavedHighListObjectz") == undefined) {
     HighScoreList = [
-      {'name': "Sam", 'score': 30},
-      {'name': "Markus", 'score': 554},
-      {'name': "Cody", 'score': 221},
-      {'name': "David", 'score': 39},
-      {'name': "Jackson", 'score': 555}
+      {'name': "Sam", 'score': 30000},
+      {'name': "Markus", 'score': 55400},
+      {'name': "Cody", 'score': 22100},
+      {'name': "David", 'score': 39000},
+      {'name': "Jackson", 'score': 5550}
     ];
     localStorage.setItem("SavedHighList", JSON.stringify(HighScoreList));
   }else{
