@@ -5,6 +5,12 @@
 var HighScoreList;
 var currentPlayer;
 
+/*
+
+- tidsmätare, totalla för "FRÅGORNA" inte hela spelet.
+- highscore lista
+
+ */
 var questions = function () {
 
   var questionButton = document.getElementById("getQuestionButton");
@@ -201,13 +207,14 @@ var questions = function () {
     HideAllRadios();
     QuestionGame("GET", null);
     countDown = 20;
+    TheDelay();
   }
 
 
   questionButton.addEventListener("click", function () {
     var Answer = document.getElementById("AnswerArea").value;
     QuestionGame("POST", Answer);
-
+    clearTimeout(theT);
 
   });
 
